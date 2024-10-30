@@ -1,4 +1,4 @@
- set tv ntsc
+set tv ntsc
  set romsize 4k
 
 
@@ -46,6 +46,10 @@
 system_start_begin
   newbackground = 1
   COLUBK = 45
+  player0x = 75
+  player0y = 78
+  player1x = 75
+  player1y = 17
 system_start_end
 
 fullgameloop
@@ -85,6 +89,8 @@ main
 
   dim Player_0_X_Speed = a
   dim Player_0_Y_Speed = b
+  dim Player_1_X_Speed = c
+  dim Player_1_Y_Speed = d
 
 
 
@@ -124,6 +130,44 @@ _if_6
   Player_0_Y_Speed = 255
 _if_6_end
   player0y = player0y + Player_0_Y_Speed
+
+
+  if Player_1_X_Speed && collision(player1, playfield) then goto _if_7 else goto _if_7_end
+_if_7
+  Player_1_X_Speed = -Player_1_X_Speed
+  player1x = player1x + Player_1_X_Speed
+_if_7_end
+  Player_1_X_Speed = 0
+
+  if joy1right then goto _if_8 else goto _if_8_end
+_if_8
+  Player_1_X_Speed = 1
+_if_8_end
+
+  if joy1left then goto _if_9 else goto _if_9_end
+_if_9
+  Player_1_X_Speed = 255
+_if_9_end
+  player1x = player1x + Player_1_X_Speed
+
+
+  if Player_1_Y_Speed && collision(player1, playfield) then goto _if_10 else goto _if_10_end
+_if_10
+  Player_1_Y_Speed = -Player_1_Y_Speed
+  player1y = player1y + Player_1_Y_Speed
+_if_10_end
+  Player_1_Y_Speed = 0
+
+  if joy1down then goto _if_11 else goto _if_11_end
+_if_11
+  Player_1_Y_Speed = 1
+_if_11_end
+
+  if joy1up then goto _if_12 else goto _if_12_end
+_if_12
+  Player_1_Y_Speed = 255
+_if_12_end
+  player1y = player1y + Player_1_Y_Speed
   
 
  rem **************************************************************************
@@ -186,11 +230,11 @@ commongamelogic
   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
   X.............................X.
   X.............................X.
-  X.......XXXXX....XXXXX........X.
+  X.......XXXXX..XXXXXXX........X.
   X.......X...X....X...X........X.
+  X.......X...XXX..X...X........X.
   X.......X...X....X...X........X.
-  X.......X...X....X...X........X.
-  X.......XXXXX....XXXXX........X.
+  X.......XXXXX..XXXXXXX........X.
   X.............................X.
   X.............................X.
   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
